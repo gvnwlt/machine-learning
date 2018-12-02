@@ -18,3 +18,5 @@ Uses something like a step-by-step rule to guide it in making its decision on gr
 
   *Euclidean distance 
   D(p1, p2) = sqrt((x2 - x1)^2 + (y2 - y1)^2))
+
+# K-NN is a non-linear classifier
