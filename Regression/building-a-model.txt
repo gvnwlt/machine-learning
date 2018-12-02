@@ -1,0 +1,20 @@
+# building a model 
+
+# backward elimination *fastest one of all
+  1) select a significance level 
+  2) fit the full model with all possible predictors 
+  3) consider the predictor with the highest p-value. If p > sl, go to 4, else DONE
+  4) remove the predictor 
+  5) fit the model without this variable (rebuild the model)
+
+# forward selection (a low p-value here means the variable is significant)
+  1) select a significance level to enter the model 
+  2) fit all simple regression models y ~ xn and select the one with the lowest p-value
+  3) keep this variable and fit all possible models with one extra predictor added to ones already have 
+  4) consider the predictor with the lowest p-value. If p < sl, go to step 3, else DONE 
+  
+# bidirectional elimination 
+   1) select a significance level to enter and to stay in the model 
+   2) perform the next step forward selection
+   3) perform all steps of backward elmination (keep repeating back to 3 until condition 4 is reached)
+   4) no new variables can enter and no old variables can exit 

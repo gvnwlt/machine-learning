@@ -1,0 +1,45 @@
+# simple linear regression
+
+# regression: a return to a former or less developed state
+
+# regression line: line that represents a going back from truth data which is, oc can be, messy to a regression line that 
+resembles some order out of the data; if the regression line is to far from the truth data it is useless 
+
+# mainly uses 'sum of squared errors' or 'sum of squares of residuals' to determine what 
+the best slope for prediction is (SUM(yi - yihat)^2 -> min)
+
+# the line with the smallest sum will be the simple linear regression model
+
+# gives you equation to predict values for the output variable by plugging in values for the input variables
+
+# describes relationship between one or more input variables and an output variable 
+
+# in a nutshell the regression process is about running a number of different regression lines and choosing the one with the 
+  best orinary least squares value (sum score with least errors)
+
+# assumptions of a linear regression
+  1) linearity
+  2) homoscedasticity (variance around the regression line is about the same)
+  3) multivariate normally
+  4) independence of errors 
+  5) lack of multicollinearity (one predictor variable can be predicted from others)
+
+# p-values 
+  -use the pvalue to determine the likeliness that the null-hypothesis is to be rejected (the higher the value we are a saying 
+  there is less evidence to reject the null hypothesis) 
+  -high pvalue says that it would be pretty normal to get this particular sample if the null hypothesis were true 
+  -p value is a tool used by scientists to determine wheter or not their hypothesis is correct 
+  -the p value offers insight as to whether the sample data is common or not 
+  -scientists generally set the p value threshold to something like 0.05 which if the p value follows below this level then their
+  hypothesis gets rejected
+  -p values are usually found on a reference table by first calculating a chi square value
+
+  # degrees of freedom
+    -number of 'n' categories to observe or examine (n - 1)
+    -this value is used in conjunction of the results of the 'observered value' and the 'expected value' to produce the chi square
+    value (so this somewhat gives a fuzzy idea of how likely the same kind if sample is likely to occur based on plugging in the 
+    chi score to the reference table that corresponds to a p value)
+    -also using the signficance level in conjuction with chi sqaures produces the p value 
+    -a typical sig level is 5% or p<0.05 which means that there is at most a 5% chance of the sample being reproduced randomly
+    -use the chi squares value and dof to determine the p-value on reference table (once value exceeds the chi value the corresponding
+    value for the column should be selected for the p-value)

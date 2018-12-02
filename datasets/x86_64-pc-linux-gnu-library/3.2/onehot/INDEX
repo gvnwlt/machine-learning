@@ -1,0 +1,2 @@
+onehot                  Onehot encode a data.frame
+predict.onehot          Predict onehot objects

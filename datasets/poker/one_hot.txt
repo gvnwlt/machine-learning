@@ -1,0 +1,25 @@
+# set working dir
+> setwd("~/R")
+
+# import the data
+> data <- read.csv("poker_data1.csv")
+
+# convert data into factors before "onehotting"
+> data <- factor(data$s1 + data$c1 + data$s2 + data$c2 + data$s3 + data$c3 + data$s4 + data$c4 + data$s5 + data$c5 +data$hand)
+
+# store the onehot data into dataframe 
+> oh <- as.data.frame(model.matrix(~data))
+
+
+# poker example
+
+> setwd("~/R")
+> poker_data <- read.csv("poker_data1.csv")
+> set.seed(123)
+> train_sample <- sample(25010, 18758)
+> poker_train <- poker_data[train_sample, ]
+> poker_test <- poker_data[-train_sample, ]
+> poker_train <- factor(poker_train$s1 + poker_train$c1 + poker_train$s2 + poker_train$c2 + poker_train$s3 + poker_train$c3 + poker_train$s4 + poker_train$c4 + poker_train$s5 + poker_train$c5 + poker_train$hand)
+> poker_train <- as.data.frame(model.matrix(~poker_train))
+> poker_test <- factor(poker_test$s1 + poker_test$c1 + poker_test$s2 + poker_test$c2 + poker_test$s3 + poker_test$c3 + poker_test$s4 + poker_test$c4 + poker_test$s5 + poker_test$c5 + poker_test$hand)
+> poker_test <- as.data.frame(model.matrix(~poker_test))

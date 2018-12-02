@@ -1,0 +1,397 @@
+--------------------------------------------------------------------------------------------
+first trial
+--------------------------------------------------------------------------------------------
+
+> setwd("~/R/poker/")
+> train <- read.csv("train.csv")
+> test <- read.csv("test.csv")
+> 
+> train_labels <- as.factor(train$hand)
+> test_labels <- as.factor(test$hand)
+> 
+> part_train = train[1:18000,]
+> valid <- train[-1:-18000,]
+> labels_part <- train_labels[1:18000]
+> valid_lables <- train_labels[-1:-18000]
+> 
+> library(nnet)
+> fit <- nnet(labels_part ~ ., data = part_train, size = 6, decay = 5e-4)
+
+> pred <- predict(fit, test, type = "class")
+> library(caret)
+
+> results <- table(pred = pred, true = test_labels)
+> results
+
+> u <- union(pred, factor(test_labels))
+> t <- table(factor(pred, u), factor(test_labels, u))
+> confusionMatrix(t)
+
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      7      6      4      5      8      9
+  0 501156      0      0      0      0      0      0      0      0      0
+  1     53 422460      0      0      0      0      0      0      0      0
+  2      0     38  45699  17658     55    518   2673   1044      2      0
+  3      0      0   1923   3463    175    906   1212    952     10      3
+  7      0      0      0      0      0      0      0      0      0      0
+  6      0      0      0      0      0      0      0      0      0      0
+  4      0      0      0      0      0      0      0      0      0      0
+  5      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+  9      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                                  
+               Accuracy : 0.972778                
+                 95% CI : (0.9724572, 0.9730961)  
+    No Information Rate : 0.501209                
+    P-Value [Acc > NIR] : < 0.00000000000000022204
+                                                  
+                  Kappa : 0.9519809               
+ Mcnemar's Test P-Value : NA                      
+
+Statistics by Class:
+
+                      Class: 0  Class: 1  Class: 2  Class: 3 Class: 7 Class: 6 Class: 4 Class: 5 Class: 8 Class: 9
+Sensitivity          0.9998943 0.9999101 0.9596195 0.1639600  0.00000 0.000000 0.000000 0.000000 0.000000 0.000000
+Specificity          1.0000000 0.9999082 0.9769125 0.9947072  1.00000 1.000000 1.000000 1.000000 1.000000 1.000000
+Pos Pred Value       1.0000000 0.9998746 0.6751518 0.4006247      NaN      NaN      NaN      NaN      NaN      NaN
+Neg Pred Value       0.9998938 0.9999342 0.9979374 0.9821880  0.99977 0.998576 0.996115 0.998004 0.999988 0.999997
+Prevalence           0.5012090 0.4224980 0.0476220 0.0211210  0.00023 0.001424 0.003885 0.001996 0.000012 0.000003
+Detection Rate       0.5011560 0.4224600 0.0456990 0.0034630  0.00000 0.000000 0.000000 0.000000 0.000000 0.000000
+Detection Prevalence 0.5011560 0.4225130 0.0676870 0.0086440  0.00000 0.000000 0.000000 0.000000 0.000000 0.000000
+Balanced Accuracy    0.9999471 0.9999091 0.9682660 0.5793336  0.50000 0.500000 0.500000 0.500000 0.500000 0.500000
+
+--------------------------------------------------------------------------------------------
+second trial
+--------------------------------------------------------------------------------------------
+
+> setwd("~/R/poker/")
+> train <- read.csv("train.csv")
+> test <- read.csv("test.csv")
+> 
+> t_lab <- as.factor(train$hand)
+> te_lab <- as.factor(test$hand)
+> 
+> library(nnet)
+> 
+> train_sample <- train[1:18000, ]
+> t_lab <- t_lab[1:18000]
+> 
+> fit <- nnet(t_lab ~ ., data = train_sample, size = 6, decay = 5e-4)
+# weights:  142
+initial  value 27149.071296 
+iter  10 value 15355.724748
+iter  20 value 8535.873550
+iter  30 value 5723.349317
+iter  40 value 4563.022053
+iter  50 value 2538.093621
+iter  60 value 1595.677860
+iter  70 value 1034.160884
+iter  80 value 436.584443
+iter  90 value 183.466120
+iter 100 value 151.995906
+final  value 151.995906 
+stopped after 100 iterations
+> pred <- predict(fit, test, type = "class")
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+There were 15 warnings (use warnings() to see them)
+> results <- table(pred = pred, true = te_lab)
+> results
+    true
+pred      0      1      2      3      4      5      6      7      8      9
+   0 501209      0      0      0      0      0      0      0      0      0
+   1      0 422498      0      0      0      0      0      0      0      0
+   2      0      0  47622      0      0      0      0      0      0      0
+   3      0      0      0  21121      0      0      0      0      0      0
+   4      0      0      0      0   3845   1623   1039    115      4      1
+   5      0      0      0      0     40    373    385    115      8      2
+> u <- union(pred, factor(te_lab))
+> t <- table(factor(pred, u), factor(te_lab, u))
+> confusionMatrix(t)
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      4      5      7      6      8      9
+  0 501209      0      0      0      0      0      0      0      0      0
+  1      0 422498      0      0      0      0      0      0      0      0
+  2      0      0  47622      0      0      0      0      0      0      0
+  3      0      0      0  21121      0      0      0      0      0      0
+  4      0      0      0      0   3845   1623    115   1039      4      1
+  5      0      0      0      0     40    373    115    385      8      2
+  7      0      0      0      0      0      0      0      0      0      0
+  6      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+  9      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                          
+               Accuracy : 0.9967          
+                 95% CI : (0.9966, 0.9968)
+    No Information Rate : 0.5012          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9941          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 7 Class: 6 Class: 8 Class: 9
+Sensitivity            1.0000   1.0000  1.00000  1.00000 0.989704 0.186874  0.00000 0.000000  0.0e+00    0e+00
+Specificity            1.0000   1.0000  1.00000  1.00000 0.997207 0.999449  1.00000 1.000000  1.0e+00    1e+00
+Pos Pred Value         1.0000   1.0000  1.00000  1.00000 0.580202 0.404117      NaN      NaN      NaN      NaN
+Neg Pred Value         1.0000   1.0000  1.00000  1.00000 0.999960 0.998376  0.99977 0.998576  1.0e+00    1e+00
+Prevalence             0.5012   0.4225  0.04762  0.02112 0.003885 0.001996  0.00023 0.001424  1.2e-05    3e-06
+Detection Rate         0.5012   0.4225  0.04762  0.02112 0.003845 0.000373  0.00000 0.000000  0.0e+00    0e+00
+Detection Prevalence   0.5012   0.4225  0.04762  0.02112 0.006627 0.000923  0.00000 0.000000  0.0e+00    0e+00
+Balanced Accuracy      1.0000   1.0000  1.00000  1.00000 0.993456 0.593161  0.50000 0.500000  5.0e-01    5e-01
+
+--------------------------------------------------------------------------------------------
+third trial
+--------------------------------------------------------------------------------------------
+
+> fit <- nnet(t_lab ~ ., data = train_sample, size = 3, decay = 5e-4)
+# weights:  76
+initial  value 50139.930559 
+iter  10 value 19323.570463
+iter  20 value 18022.121864
+iter  30 value 16088.253076
+iter  40 value 7047.924686
+iter  50 value 5750.740749
+iter  60 value 4492.633955
+iter  70 value 3665.742334
+iter  80 value 2661.345359
+iter  90 value 1398.173755
+iter 100 value 1281.783539
+final  value 1281.783539 
+stopped after 100 iterations
+> pred <- predict(fit, test, type = "class")
+> results <- table(pred = pred, true = te_lab)
+> results
+    true
+pred      0      1      2      3      4      5      6      7      8      9
+   0 501070      7      0      0      0      0      0      0      0      0
+   1     10 422399      0      0      0      0      0      0      0      0
+   2      0     51  41697  14897   2012    501    202      8      0      0
+   3      0     16   5925   6224   1873   1495   1222    222     12      3
+   9    129     25      0      0      0      0      0      0      0      0
+> u <- union(pred, factor(te_lab))
+> t <- table(factor(pred, u), factor(te_lab, u))
+> confusionMatrix(t)
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      9      7      6      4      5      8
+  0 501070      7      0      0      0      0      0      0      0      0
+  1     10 422399      0      0      0      0      0      0      0      0
+  2      0     51  41697  14897      0      8    202   2012    501      0
+  3      0     16   5925   6224      3    222   1222   1873   1495     12
+  9    129     25      0      0      0      0      0      0      0      0
+  7      0      0      0      0      0      0      0      0      0      0
+  6      0      0      0      0      0      0      0      0      0      0
+  4      0      0      0      0      0      0      0      0      0      0
+  5      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                          
+               Accuracy : 0.9714          
+                 95% CI : (0.9711, 0.9717)
+    No Information Rate : 0.5012          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9496          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: 0 Class: 1 Class: 2 Class: 3 Class: 9 Class: 7 Class: 6 Class: 4 Class: 5 Class: 8
+Sensitivity            0.9997   0.9998  0.87558 0.294683 0.000000  0.00000 0.000000 0.000000 0.000000  0.0e+00
+Specificity            1.0000   1.0000  0.98145 0.989000 0.999846  1.00000 1.000000 1.000000 1.000000  1.0e+00
+Pos Pred Value         1.0000   1.0000  0.70235 0.366290 0.000000      NaN      NaN      NaN      NaN      NaN
+Neg Pred Value         0.9997   0.9998  0.99370 0.984845 0.999997  0.99977 0.998576 0.996115 0.998004  1.0e+00
+Prevalence             0.5012   0.4225  0.04762 0.021121 0.000003  0.00023 0.001424 0.003885 0.001996  1.2e-05
+Detection Rate         0.5011   0.4224  0.04170 0.006224 0.000000  0.00000 0.000000 0.000000 0.000000  0.0e+00
+Detection Prevalence   0.5011   0.4224  0.05937 0.016992 0.000154  0.00000 0.000000 0.000000 0.000000  0.0e+00
+Balanced Accuracy      0.9999   0.9999  0.92851 0.641841 0.499923  0.50000 0.500000 0.500000 0.500000  5.0e-01
+--------------------------------------------------------------------------------------------
+fourth trial
+--------------------------------------------------------------------------------------------
+
+> fit <- nnet(t_lab ~ ., data = train_sample, size = 1, decay = 5e-4)
+# weights:  32
+initial  value 46699.753380 
+iter  10 value 18551.383988
+iter  20 value 17709.772983
+iter  30 value 17689.367346
+iter  30 value 17689.367233
+iter  30 value 17689.367223
+final  value 17689.367223 
+converged
+> pred <- predict(fit, test, type = "class")
+> results <- table(pred = pred, true = te_lab)
+> u <- union(pred, factor(te_lab))
+> t <- table(factor(pred, u), factor(te_lab, u))
+> confusionMatrix(t)
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      7      6      4      5      8      9
+  0 501209 422498  47622  21121    230   1424   3885   1996     12      3
+  1      0      0      0      0      0      0      0      0      0      0
+  2      0      0      0      0      0      0      0      0      0      0
+  3      0      0      0      0      0      0      0      0      0      0
+  7      0      0      0      0      0      0      0      0      0      0
+  6      0      0      0      0      0      0      0      0      0      0
+  4      0      0      0      0      0      0      0      0      0      0
+  5      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+  9      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                          
+               Accuracy : 0.5012          
+                 95% CI : (0.5002, 0.5022)
+    No Information Rate : 0.5012          
+    P-Value [Acc > NIR] : 0.5004          
+                                          
+                  Kappa : 0               
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: 0 Class: 1 Class: 2 Class: 3 Class: 7 Class: 6 Class: 4 Class: 5 Class: 8 Class: 9
+Sensitivity            1.0000   0.0000  0.00000  0.00000  0.00000 0.000000 0.000000 0.000000  0.0e+00    0e+00
+Specificity            0.0000   1.0000  1.00000  1.00000  1.00000 1.000000 1.000000 1.000000  1.0e+00    1e+00
+Pos Pred Value         0.5012      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+Neg Pred Value            NaN   0.5775  0.95238  0.97888  0.99977 0.998576 0.996115 0.998004  1.0e+00    1e+00
+Prevalence             0.5012   0.4225  0.04762  0.02112  0.00023 0.001424 0.003885 0.001996  1.2e-05    3e-06
+Detection Rate         0.5012   0.0000  0.00000  0.00000  0.00000 0.000000 0.000000 0.000000  0.0e+00    0e+00
+Detection Prevalence   1.0000   0.0000  0.00000  0.00000  0.00000 0.000000 0.000000 0.000000  0.0e+00    0e+00
+Balanced Accuracy      0.5000   0.5000  0.50000  0.50000  0.50000 0.500000 0.500000 0.500000  5.0e-01    5e-01
+--------------------------------------------------------------------------------------------
+fifth trial
+--------------------------------------------------------------------------------------------
+
+> fit <- nnet(t_lab ~ ., data = train_sample, size = 10, decay = 5e-4)
+# weights:  230
+initial  value 33735.019758 
+iter  10 value 17700.910934
+iter  20 value 15279.290249
+iter  30 value 6232.251600
+iter  40 value 4123.863289
+iter  50 value 2874.002104
+iter  60 value 1899.164382
+iter  70 value 1271.758138
+iter  80 value 713.956928
+iter  90 value 440.781076
+iter 100 value 309.082893
+final  value 309.082893 
+stopped after 100 iterations
+> pred <- predict(fit, test, type = "class")
+> results <- table(pred = pred, true = te_lab)
+> u <- union(pred, factor(te_lab))
+> t <- table(factor(pred, u), factor(te_lab, u))
+> confusionMatrix(t)
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      4      6      7      5      8      9
+  0 501209      0      0      0      0      0      0      0      0      0
+  1      0 422421      3      0      0      0      0      0      0      0
+  2      0     73  47619      0      0      0      0      0      0      0
+  3      0      4      0  18662    181     10      4     68      0      0
+  4      0      0      0   2459   3704   1387    213   1928     11      3
+  6      0      0      0      0      0     27     13      0      1      0
+  7      0      0      0      0      0      0      0      0      0      0
+  5      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+  9      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                          
+               Accuracy : 0.9936          
+                 95% CI : (0.9935, 0.9938)
+    No Information Rate : 0.5012          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9888          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 6 Class: 7 Class: 5 Class: 8 Class: 9
+Sensitivity            1.0000   0.9998  0.99994  0.88358 0.953411 0.018961  0.00000 0.000000  0.0e+00    0e+00
+Specificity            1.0000   1.0000  0.99992  0.99973 0.993976 0.999986  1.00000 1.000000  1.0e+00    1e+00
+Pos Pred Value         1.0000   1.0000  0.99847  0.98589 0.381659 0.658537      NaN      NaN      NaN      NaN
+Neg Pred Value         1.0000   0.9999  1.00000  0.99749 0.999817 0.998603  0.99977 0.998004  1.0e+00    1e+00
+Prevalence             0.5012   0.4225  0.04762  0.02112 0.003885 0.001424  0.00023 0.001996  1.2e-05    3e-06
+Detection Rate         0.5012   0.4224  0.04762  0.01866 0.003704 0.000027  0.00000 0.000000  0.0e+00    0e+00
+Detection Prevalence   0.5012   0.4224  0.04769  0.01893 0.009705 0.000041  0.00000 0.000000  0.0e+00    0e+00
+Balanced Accuracy      1.0000   0.9999  0.99993  0.94165 0.973693 0.509473  0.50000 0.500000  5.0e-01    5e-01
+--------------------------------------------------------------------------------------------
+sixth trial
+--------------------------------------------------------------------------------------------
+
+> fit <- nnet(t_lab ~ ., data = train_sample, size = 30, decay = 5e-4)
+# weights:  670
+initial  value 80637.798405 
+iter  10 value 18789.629769
+iter  20 value 17113.522915
+iter  30 value 13677.110473
+iter  40 value 8886.877080
+iter  50 value 6807.999803
+iter  60 value 5351.841861
+iter  70 value 3587.953085
+iter  80 value 1931.575093
+iter  90 value 1312.749910
+iter 100 value 879.005706
+final  value 879.005706 
+stopped after 100 iterations
+> pred <- predict(fit, test, type = "class")
+> results <- table(pred = pred, true = te_lab)
+> u <- union(pred, factor(te_lab))
+> t <- table(factor(pred, u), factor(te_lab, u))
+> confusionMatrix(t)
+Confusion Matrix and Statistics
+
+   
+         0      1      2      3      7      9      6      4      5      8
+  0 500713      2      0      0      0      0      0      0      0      0
+  1    351 422015    592      7      0      0      0      0      0      0
+  2    145    473  44439   4355      0      0      0      4      1      0
+  3      0      3   2591  16747    230      3   1424   3881   1995     12
+  7      0      0      0      6      0      0      0      0      0      0
+  9      0      5      0      6      0      0      0      0      0      0
+  6      0      0      0      0      0      0      0      0      0      0
+  4      0      0      0      0      0      0      0      0      0      0
+  5      0      0      0      0      0      0      0      0      0      0
+  8      0      0      0      0      0      0      0      0      0      0
+
+Overall Statistics
+                                          
+               Accuracy : 0.9839          
+                 95% CI : (0.9837, 0.9842)
+    No Information Rate : 0.5012          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9717          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: 0 Class: 1 Class: 2 Class: 3 Class: 7 Class: 9 Class: 6 Class: 4 Class: 5 Class: 8
+Sensitivity            0.9990   0.9989  0.93316  0.79291 0.000000  0.0e+00 0.000000 0.000000 0.000000  0.0e+00
+Specificity            1.0000   0.9984  0.99477  0.98964 0.999994  1.0e+00 1.000000 1.000000 1.000000  1.0e+00
+Pos Pred Value         1.0000   0.9978  0.89927  0.62289 0.000000  0.0e+00      NaN      NaN      NaN      NaN
+Neg Pred Value         0.9990   0.9992  0.99665  0.99551 0.999770  1.0e+00 0.998576 0.996115 0.998004  1.0e+00
+Prevalence             0.5012   0.4225  0.04762  0.02112 0.000230  3.0e-06 0.001424 0.003885 0.001996  1.2e-05
+Detection Rate         0.5007   0.4220  0.04444  0.01675 0.000000  0.0e+00 0.000000 0.000000 0.000000  0.0e+00
+Detection Prevalence   0.5007   0.4230  0.04942  0.02689 0.000006  1.1e-05 0.000000 0.000000 0.000000  0.0e+00
+Balanced Accuracy      0.9995   0.9986  0.96397  0.89127 0.499997  5.0e-01 0.500000 0.500000 0.500000  5.0e-01
+> 
+

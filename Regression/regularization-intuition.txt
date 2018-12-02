@@ -1,0 +1,10 @@
+# regularization intuition
+  
+# overfitting (poor generalization power)
+  Overfitting can mean a bad model in the sense that the model will be highly sensitive to new data where it might be way off 
+  in its prediction since the input is so precisely modeled for that any deviation from it results in large errors. 
+
+# regularization methods (solves overfitting)
+  -ridge regression 
+  -lasso 
+  -elastic net

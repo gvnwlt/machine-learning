@@ -1,0 +1,70 @@
+setwd("~/R/concrete")
+> concrete <- read.csv("concrete.csv")
+> str(concrete)
+'data.frame':	1030 obs. of  9 variables:
+ $ cement      : num  540 540 332 332 199 ....
+ $ slag        : num  0 0 142 142 132 ...
+ $ ash         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ water       : num  162 162 228 228 192 228 228 228 228 228 ...
+ $ superplastic: num  2.5 2.5 0 0 0 0 0 0 0 0 ...
+ $ coarseagg   : num  1040 1055 932 932 978 ...
+ $ fineagg     : num  676 676 594 594 826 ...
+ $ age         : int  28 28 270 365 360 90 365 28 28 28 ...
+ $ strength    : num  80 61.9 40.3 41 44.3 ...
+> normalize <- function(x) { return((x - min(x)) / (max(x) - min(x)))}
+> concrete_norm <- as.data.frame(lapply(concrete, normalize))
+> str(concrete_norm)
+'data.frame':	1030 obs. of  9 variables:
+ $ cement      : num  1 1 0.526 0.526 0.221 ...
+ $ slag        : num  0 0 0.396 0.396 0.368 ...
+ $ ash         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ water       : num  0.321 0.321 0.848 0.848 0.561 ...
+ $ superplastic: num  0.0776 0.0776 0 0 0 ...
+ $ coarseagg   : num  0.695 0.738 0.381 0.381 0.516 ...
+ $ fineagg     : num  0.206 0.206 0 0 0.581 ...
+ $ age         : num  0.0742 0.0742 0.739 1 0.9863 ...
+ $ strength    : num  0.967 0.742 0.473 0.482 0.523 ...
+> summary(concrete_norm)
+     cement            slag              ash             water         superplastic      coarseagg         fineagg      
+ Min.   :0.0000   Min.   :0.00000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.2063   1st Qu.:0.00000   1st Qu.:0.0000   1st Qu.:0.3442   1st Qu.:0.0000   1st Qu.:0.3808   1st Qu.:0.3436  
+ Median :0.3902   Median :0.06121   Median :0.0000   Median :0.5048   Median :0.1988   Median :0.4855   Median :0.4654  
+ Mean   :0.4091   Mean   :0.20561   Mean   :0.2708   Mean   :0.4774   Mean   :0.1927   Mean   :0.4998   Mean   :0.4505  
+ 3rd Qu.:0.5662   3rd Qu.:0.39775   3rd Qu.:0.5912   3rd Qu.:0.5607   3rd Qu.:0.3168   3rd Qu.:0.6640   3rd Qu.:0.5770  
+ Max.   :1.0000   Max.   :1.00000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+      age             strength     
+ Min.   :0.00000   Min.   :0.0000  
+ 1st Qu.:0.01648   1st Qu.:0.2664  
+ Median :0.07418   Median :0.4001  
+ Mean   :0.12270   Mean   :0.4172  
+ 3rd Qu.:0.15110   3rd Qu.:0.5457  
+ Max.   :1.00000   Max.   :1.0000  
+
+> concrete_train <- concrete_norm[1:773, ]
+> concrete_test <- concrete_norm[774:1030, ]
+> install.packages("neuralnet")
+Installing package into ‘C:/Users/gvnwa/OneDrive/Documents/R/win-library/3.3’
+(as ‘lib’ is unspecified)
+trying URL 'https://mran.revolutionanalytics.com/snapshot/2016-11-01/bin/windows/contrib/3.3/neuralnet_1.33.zip'
+Content type 'application/zip' length 59438 bytes (58 KB)
+downloaded 58 KB
+
+package ‘neuralnet’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\gvnwa\AppData\Local\Temp\RtmpQT7iQO\downloaded_packages
+> library(neuralnet)
+> concrete_model <- neuralnet(strength ~  cement + slag + ash + water + superplastic + coarseagg + fineagg + age, data = concrete_train)
+> plot(concrete_model)
+> model_results <- compute(concrete_model, concrete_test[1:8])
+> predicted_strength <- model_results$net.result
+> cor(predicted_strength, concrete_test$strength)
+             [,1]
+[1,] 0.7267778703
+> concrete_model2 <- neuralnet(strength ~ cement + slag + ash + water + superplastic + coarseagg + fineagg + age, data = concrete_train, hidden = 5)
+> plot(concrete_model2)
+> model_results2 <- compute(concrete_model2, concrete_test[1:8])
+> predicted_strength2 <- model_results2$net.result
+> cor(predicted_strength2, concrete_test$strength)
+             [,1]
+[1,] 0.6900825491

@@ -1,0 +1,20 @@
+# k-nearest neighbors (KNN)
+
+KNN does groupings of a dataset and then predicts what group a new data point belongs to afterwards. 
+
+Uses something like a step-by-step rule to guide it in making its decision on groupings.
+
+# steps to performing KNN
+
+  1) You have to choose the number of K of neighbors (how many groupings basically; common default is 5)
+
+  2) Take the KNN of the new point, according to Euclidean distance
+
+  3) Among these K neighbors, count the number of data points in each category. 
+
+  4) Assign the new data point to the category were you counted the most neighbors.
+
+  5) Done. 
+
+  *Euclidean distance 
+  D(p1, p2) = sqrt((x2 - x1)^2 + (y2 - y1)^2))

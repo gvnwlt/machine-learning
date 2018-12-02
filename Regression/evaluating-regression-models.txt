@@ -1,0 +1,43 @@
+# evaluating moaels 
+
+# linear regression (R squarea) 
+
+  Using the SSres and SStot the R^2 value can be founa with 
+            SSres
+  R^2 = 1 - ------
+            SStot
+
+  *SStot (sum of total errors) is the sum of yi minus the yavg squared 
+  (SUM (yi - yavg)^2)
+
+  The point of the regression line is to minimize the SSres.
+
+  As SSres gets smaller the R2 value increases since there is less of an error occuring.
+
+  R squared just represents how well the model is fitted to the data.
+
+
+# linear regression (adjusted R squared) 
+ 
+  aaj R^2 = 1 - (1 - R^2)n - 1
+                         ------------
+                         n - p - 1
+  p = number of regressors (features or independent variables)
+  n = sample size 
+
+  Having more regressors penalizes the outcome for adjusted R-squared such that 
+  has the number of p regressors increases in the denominator the error grows 
+  larger.
+
+  Adjusted R-squared is good for evaluating models that exceed 2 regressors. 
+  
+  
+# Interpreting Linear Regression Coefficients 
+
+  Use the dependent variable as the setter for indendendent variable unit values. 
+
+  Know what your units are measured in in terms of independent and dependent variables. 
+
+  The magnitude of the feature coefficient drives the independent variable in some way. 
+
+  Think: for each increase/decrease in the independent variable x there is a increase/decrease in y. 

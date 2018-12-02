@@ -1,0 +1,34 @@
+# data preprocessing 
+
+# missing data 
+  -take average (mean) of values in column and 'impute' the data into the missing data sections 
+  -can also use median or most frequent (mode) to replace missing values along the axis 
+
+# categorical data 
+  -common way of dealing with categorical data is to use encoding
+  -equations, such as linear regressions, cannot use 'text'
+  -label encoder is popular to use from the sklearn library (good if not more than two categories)
+  -dummy encoding must be used to prevent errors (onehotencoder); this is needed for many scikit-learn estimators, linear models, 
+  and SVMs.
+
+# splitting into training set and test set
+  -useful library for this is the cross validation library (train_test_split)
+  -rule of thumb is to always use more training data than test data (80/20)
+  -should select the data into splits at random 
+
+# feature scaling 
+  -many machine learning models are based on Euclidean distance 
+  *distance between two points (sqrt((x2-x2)^2 + (y2 - y1)^2))
+  -if value of different observations is drastically different in terms of magnitude, the large feature value will 
+  dominate over the other, thus throwing off the resulting regression model.
+  -2 common methods for scaling data: standardisation and normalisation 
+
+# standardisation
+            x - mean(x)
+  xstand = -----------------------
+            standard deviation (x)     // unit of deviation from the mean
+
+# normalisation
+             x - min(x)
+  xstand = -----------------------
+            max(x) - min(x)            

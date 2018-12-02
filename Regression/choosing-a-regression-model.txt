@@ -1,0 +1,14 @@
+# choosing a regression model
+  -is the problem linear or non-linear? (does a line appear when the data is graphed?)
+
+# linear problems
+  -simple linear regression (one feature)
+  -multiple linear regression (several features)
+  *works on any size dataset and gives information about the relevance of features
+
+# non-linear problems
+  -polynomial regression --> need to choose the right polynomial degree to be effective (back propagation)
+  -support vector regression (SVR) --> easily adaptable but difficult to understand
+  -decision tree --> doesn't need feature scaling, can be used for linear/non-linear, bad for small datasets, easily overfits data
+  -random forest --> powerful and accurate, good performance, easily overfits, no interpretability, and need to select number of trees
+  *use k-fold cross validation to evaluate each to select the best one

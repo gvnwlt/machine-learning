@@ -1,0 +1,17 @@
+# decision trees 
+
+ This is basically another form of clustering data values to find unique grouping or 
+ patterns in a given dataset (features of interest). Using this tool is good for narrowing
+ in on what features really matter in a dataset, in particular, features that have a 
+ strong correlation with a feature of interest (dependent variable) and that have enough
+ variance to be interesting or worth while. 
+
+ The logic to a decision tree is supplied by use of if-then-else to make decisions.
+
+ Using the average of a dependent variable, a decision is made based on a set of 
+ rules that dictate if it 'clamps' onto the average output y or not for a given
+ input x.
+
+ A decision tree can be a very powerful model in more dimensions (more than just one 
+ or two).
+
