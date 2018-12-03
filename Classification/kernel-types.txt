@@ -1,0 +1,12 @@
+# kernels types 
+
+# linear
+
+# polynomial
+
+# gaussian (rbf - Radial Basis Function)
+  -typical bell curve distribution
+
+# sigmoid
+
+# precomputed 

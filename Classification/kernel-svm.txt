@@ -1,0 +1,19 @@
+# Kernel Support Vector Machine
+
+Good for situations where one cannot simply draw a line through a set of differentiating points because they do not follow a linear 
+or even a logistic pattern for separation. 
+
+Use for non-linearly separable data. 
+
+Helps to choose the optimal decision boundary. 
+
+In order to provide a solution for a non-linear problem, the data set must be mapped to a higher dimensional space.
+
+The use of a hyperplane (replaces using a line) may be needed to separate some data sets. 
+
+Mapping to a higher dimensional space can be more computationally expensive. 
+
+# steps to implementing a kernel svm 
+  1) create a mapping function starting with a function that desribes the current dataset dimension 
+  2) modify the function by upgrading it to a higher degree or order to generate a transform of the current points 
+  3) draw a line within the newly higher dimensional plot to classfify the datapoints. 

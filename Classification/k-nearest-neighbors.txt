@@ -6,7 +6,7 @@ Uses something like a step-by-step rule to guide it in making its decision on gr
 
 # steps to performing KNN
 
-  1) You have to choose the number of K of neighbors (how many groupings basically; common default is 5)
+  1) You have to choose the number of K of neighbors (how many neighbors basically; common default is 5)
 
   2) Take the KNN of the new point, according to Euclidean distance
 

@@ -1,0 +1,21 @@
+# support vector machines (SVM)
+
+Developed in the 1960's and were refined in the 1990's and are again becoming very popular in machine learning because they are different than other
+machine learning algorithms. 
+
+Generates a line to separate data points. 
+
+All about finding the best decision boundary (line) that separates the possible classifications.
+
+Each point in SVM is considered a vector in this context. 
+
+The line that separates classes is known as the maximum margin hyperplane (or classifier).
+
+The margins for a line are classified as positive hyperplane and negative hyperplane.
+
+Not strictly a linear classifier. Can use Gaussian, logistic, sigmoid, and other kernels to make classifications.
+
+
+# Steps to implementing SVM
+  1) Line is generated 
+  2) Maximum margin is set on the line and it calculates the distance of the 'support vectors'. The line and margin find two points that represent a class.
