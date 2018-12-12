@@ -1,1 +1,4 @@
 # decision tree classification
+
+# how does it split up the data? 
+
