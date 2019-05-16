@@ -5,6 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+#display graphs in separate window or inline
+%matplotlib qt
+#%matplotlib inline
+
 # Importing the dataset
 dataset = pd.read_csv('Position_Salaries.csv')
 X = dataset.iloc[:, 1:2].values
