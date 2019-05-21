@@ -9,6 +9,10 @@
 # Installing Keras
 # pip install --upgrade keras
 
+#check if gpu processing is available
+from tensorflow.python.client import device_lib
+print(device_lib.list_local_devices())
+
 # Part 1 - Building the CNN
 
 # Importing the Keras libraries and packages
@@ -42,9 +46,9 @@ classifier.add(Dense(output_dim = 1, activation = 'sigmoid'))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 # Part 2 - Fitting the CNN to the images
-
 from keras.preprocessing.image import ImageDataGenerator
 
+#rescaling pixel values between 0 and 1 for image augmentation
 train_datagen = ImageDataGenerator(rescale = 1./255,
                                    shear_range = 0.2,
                                    zoom_range = 0.2,
@@ -62,8 +66,9 @@ test_set = test_datagen.flow_from_directory('dataset/test_set',
                                             batch_size = 32,
                                             class_mode = 'binary')
 
+#'steps_per_epoch' was 'samples_per_epoch = 8000'
 classifier.fit_generator(training_set,
-                         samples_per_epoch = 8000,
+                         steps_per_epoch=250,
                          nb_epoch = 25,
                          validation_data = test_set,
                          nb_val_samples = 2000)
