@@ -1,7 +1,0 @@
-# improving models 
-  
-# hyperparameters 
-  -tuning knobs of a model in the form of a fixed regularization value lambda or penalty parameter
-  -adjusting hyperparamters effects the performance of a model 
-  -parameters that are learnt, such as coefficients in a linear regression, are another example of hyperparameters
-  -finding the optimal value is exactly what parameter tuning is about
